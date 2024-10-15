@@ -132,7 +132,7 @@
   (lsp-enable-which-key-integration t))
 
 ;; Automatically launch LSP when mode are activated
-(add-hook 'c-mode-hook 'lsp-deferred)
+(add-hook 'c-ts-mode-hook 'lsp-deferred)
 (add-hook 'c++-mode-hook 'lsp-deferred)
 (add-hook 'rust-mode-hook 'lsp-deferred)
 (add-hook 'js-jsx-mode-hook 'lsp-deferred)
@@ -199,9 +199,6 @@
     (move-beginning-of-line 1)
     (forward-char column)))
 (global-set-key (kbd "C-,") 'duplicate-line)
-
-(require 'simpc-mode)
-(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
 (require 'c3-mode)
 
