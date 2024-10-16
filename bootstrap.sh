@@ -31,3 +31,9 @@ EMACS_FILE="${HOME}/.emacs"
 if [ ! -f $EMACS_FILE ]; then
     ln -s "${PWD}/.emacs" $EMACS_FILE
 fi
+
+# SQLITE
+SQLITE_FILE="${HOME}/.sqliterc"
+if [ ! -f $SQLITE_FILE ]; then
+    ln -s "${PWD}/.sqliterc" $SQLITE_FILE
+fi
