@@ -22,7 +22,8 @@
         lsp-mode
         treesit-auto
         prettier
-        lsp-java))
+        lsp-java
+        ripgrep))
 (unless package-archive-contents (package-refresh-contents))
 (dolist (package package-list)
   (unless (package-installed-p package)
