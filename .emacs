@@ -53,9 +53,6 @@
 (global-display-line-numbers-mode 1)
 (which-key-mode 1)
 
-;; Enable Prettier globally
-(add-hook 'after-init-hook #'global-prettier-mode)
-
 ;; ido
 (setq ido-enable-flex-matching t)
 (ido-mode 1)
@@ -142,6 +139,11 @@
 (require 'lsp-java)
 (add-hook 'java-ts-mode-hook 'lsp-deferred)
 (add-hook 'java-mode-hook 'lsp-deferred)
+
+;; Prettier
+(add-hook 'after-init-hook #'global-prettier-mode)
+(add-hook 'typescript-ts-mode-hook 'prettier-mode)
+(add-hook 'json-ts-mode-hook 'prettier-mode)
 
 ;; Swiper - Powerful search
 (use-package swiper :config (global-set-key "\C-s" 'swiper))
