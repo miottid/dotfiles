@@ -142,8 +142,9 @@
 (add-hook 'java-mode-hook 'lsp-deferred)
 
 ;; Prettier
-(add-hook 'after-init-hook #'global-prettier-mode)
 (add-hook 'typescript-ts-mode-hook 'prettier-mode)
+(add-hook 'ts-mode-hook 'prettier-mode)
+(add-hook 'tsx-ts-mode-hook 'prettier-mode)
 (add-hook 'json-ts-mode-hook 'prettier-mode)
 
 ;; Swiper - Powerful search
