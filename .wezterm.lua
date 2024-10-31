@@ -13,7 +13,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_background_opacity = 0.90
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 config.initial_rows = 40
-config.initial_cols = 108
+config.initial_cols = 170
 config.window_close_confirmation = "NeverPrompt"
 
 -- config.color_scheme = 'darkermatrix'
