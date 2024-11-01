@@ -111,6 +111,7 @@
     (interactive)
     (shell-command "open -R .")))
 
+;; (load-theme 'modus-operandi-deuteranopia)
 ;; (load-theme 'modus-operandi-tinted)
 ;; (load-theme 'gruber-darker t nil)
 
