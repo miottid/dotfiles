@@ -24,6 +24,7 @@ alias xcode="open -a Xcode"
 alias he="heroku"
 alias cleanup="brew update && brew upgrade && brew cleanup"
 alias emacs="emacs -nw"
+alias htop="btop"
 
 # - Git
 alias git="hub"
