@@ -53,6 +53,7 @@
 (column-number-mode t)
 (global-display-line-numbers-mode 1)
 (which-key-mode 1)
+(show-paren-mode 1)
 
 ;; ido
 (setq ido-enable-flex-matching t)
@@ -62,6 +63,22 @@
 (require 'recentf)
 (setq recentf-max-saved-items 50)
 (recentf-mode t)
+
+;; Window management
+(defun select-body-function (window)
+  (select-window window))
+(setq display-buffer-alist
+      '(
+        ("\\*Occur\\*"
+         (display-buffer-reuse-mode-window
+          display-buffer-below-selected)
+         (dedicated . t)
+         (window-height . fit-window-to-buffer)
+         )
+        ))
+
+(setq split-height-threshold 80)
+(setq split-width-threshold 125)
 
 ;; Show current directory
 (setq-default mode-line-buffer-identification
@@ -92,10 +109,10 @@
   ;; Open file in finder
   (defun open-file-in-finder ()
     (interactive)
-    (shell-command "open -R ."))
-  ;; Do not load theme on terminal
-  ;; (load-theme 'modus-operandi-tinted)
-  (load-theme 'gruber-darker t nil))
+    (shell-command "open -R .")))
+
+;; (load-theme 'modus-operandi-tinted)
+;; (load-theme 'gruber-darker t nil)
 
 ;; Configure font size
 (set-face-attribute 'default nil
