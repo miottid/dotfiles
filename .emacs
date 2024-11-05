@@ -227,4 +227,7 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(setq split-height-threshold nil)
+(setq split-width-threshold most-positive-fixnum)
+
 (load-file custom-file)
