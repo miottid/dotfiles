@@ -12,7 +12,6 @@
 	    magit
 	    multiple-cursors
 	    markdown-mode
-	    cider
 	    exec-path-from-shell
 	    projectile
 	    flycheck
@@ -21,10 +20,9 @@
         docker-compose-mode
         lsp-mode
         treesit-auto
-        prettier
-        lsp-java
-        ripgrep))
-(unless package-archive-contents (package-refresh-contents))
+        prettier))
+(unless package-archive-contents
+  (package-refresh-contents))
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
@@ -111,10 +109,6 @@
     (interactive)
     (shell-command "open -R .")))
 
-;; (load-theme 'modus-operandi-deuteranopia)
-;; (load-theme 'modus-operandi-tinted)
-;; (load-theme 'gruber-darker t nil)
-
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
@@ -124,6 +118,11 @@
 
 ;; Set starting frame position and size
 (setq initial-frame-alist '((top . 0) (left . 0) (width . 122) (height . 58)))
+
+;; (load-theme 'modus-operandi-deuteranopia)
+;; (load-theme 'modus-operandi-tinted)
+;; (load-theme 'gruber-darker t nil)
+(load-theme 'modus-vivendi)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
@@ -145,25 +144,23 @@
   (setq company-lsp-enable-snippet nil)
   :config
   (setq lsp-headerline-breadcrumb-enable nil)
-  (lsp-enable-which-key-integration t))
-
-;; Automatically launch LSP when mode are activated
-(add-hook 'c-ts-mode-hook 'lsp-deferred)
-(add-hook 'c++-mode-hook 'lsp-deferred)
-(add-hook 'rust-mode-hook 'lsp-deferred)
-(add-hook 'js-jsx-mode-hook 'lsp-deferred)
-(add-hook 'js-mode-hook 'lsp-deferred)
-(add-hook 'typescript-ts-mode-hook 'lsp-deferred)
-(add-hook 'tsx-ts-mode-hook 'lsp-deferred)
-(require 'lsp-java)
-(add-hook 'java-ts-mode-hook 'lsp-deferred)
-(add-hook 'java-mode-hook 'lsp-deferred)
+  (lsp-enable-which-key-integration t)
+  :hook
+  (c-ts-mode . lsp-deferred)
+  (c++-mode . lsp-deferred)
+  (rust-mode . lsp-deferred)
+  (js-jsx-mode . lsp-deferred)
+  (js-mode . lsp-deferred)
+  (typescript-ts-mode . lsp-deferred)
+  (tsx-ts-mode . lsp-deferred))
 
 ;; Prettier
-(add-hook 'typescript-ts-mode-hook 'prettier-mode)
-(add-hook 'ts-mode-hook 'prettier-mode)
-(add-hook 'tsx-ts-mode-hook 'prettier-mode)
-(add-hook 'json-ts-mode-hook 'prettier-mode)
+(use-package prettier
+  :hook
+  (typescript-ts-mode . prettier-mode)
+  (ts-mode . prettier-mode)
+  (tsx-ts-mode . prettier-mode)
+  (json-ts-mode . prettier-mode))
 
 ;; Swiper - Powerful search
 (use-package swiper :config (global-set-key "\C-s" 'swiper))
@@ -195,11 +192,8 @@
   (projectile-mode 1)
   :bind (:map projectile-mode-map
 	          ("C-x p" . projectile-command-map)
-              ("C-x p p" . projectile-dired)
+              ("C-x p d" . projectile-dired)
               ("C-x p !" . projectile-run-async-shell-command-in-root)))
-
-;; Clojure Cider
-(global-set-key (kbd "C-x C-z") 'cider-jack-in)
 
 ;; GitHub Copilot
 (use-package copilot
@@ -223,6 +217,7 @@
 (global-set-key (kbd "C-,") 'duplicate-line)
 
 (require 'c3-mode)
+(add-hook 'c3-mode-hook 'company-mode)
 
 ;; treesit
 (use-package treesit-auto
