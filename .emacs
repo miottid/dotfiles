@@ -1,26 +1,27 @@
 (require 'package)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
 
 (setq package-list
       '(ace-jump-mode
-	    smex
-	    swiper
-	    gruber-darker-theme
-	    magit
-	    multiple-cursors
-	    markdown-mode
-	    exec-path-from-shell
-	    projectile
-	    flycheck
-	    company
-	    typescript-ts-mode
-        docker-compose-mode
+        smex
+        swiper
+        gruber-darker-theme
+        magit
+        multiple-cursors
+        exec-path-from-shell
+        projectile
+        flycheck
+        company
         lsp-mode
         treesit-auto
-        prettier))
+        prettier
+        markdown-mode
+        typescript-ts-mode
+        docker-compose-mode))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -80,26 +81,27 @@
 
 ;; Show current directory
 (setq-default mode-line-buffer-identification
-              (let ((orig  (car mode-line-buffer-identification)))
-                `(:eval (cons (concat ,orig (abbreviate-file-name default-directory))
-                              (cdr mode-line-buffer-identification)))))
+              (let ((orig (car mode-line-buffer-identification)))
+                `(:eval (cons
+                         (concat ,orig (abbreviate-file-name default-directory))
+                         (cdr mode-line-buffer-identification)))))
 
 ;; macOS specific
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize)
   ;; Replace Meta with CMD
   (setq mac-option-key-is-meta nil
-	    mac-command-key-is-meta t
-	    mac-command-modifier 'meta
-	    mac-option-modifier 'none)
+        mac-command-key-is-meta t
+        mac-command-modifier 'meta
+        mac-option-modifier 'none)
   ;; Copy/Paste seemeslessly with macOS
   (defun copy-from-osx ()
     (shell-command-to-string "pbpaste"))
   (defun paste-to-osx (text &optional push)
     (let ((process-connection-type nil))
       (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-	    (process-send-string proc text)
-	    (process-send-eof proc))))
+        (process-send-string proc text)
+        (process-send-eof proc))))
   (setq interprogram-cut-function 'paste-to-osx)
   (setq interprogram-paste-function 'copy-from-osx)
   ;; Fix pixel gap between emacs and other frames
@@ -109,6 +111,9 @@
     (interactive)
     (shell-command "open -R .")))
 
+;; Set starting frame position and size
+(setq initial-frame-alist '((top . 0) (left . 0) (width . 126) (height . 70)))
+
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
@@ -116,13 +121,14 @@
                     :weight 'normal
                     :width 'normal)
 
-;; Set starting frame position and size
-(setq initial-frame-alist '((top . 0) (left . 0) (width . 122) (height . 58)))
-
 ;; (load-theme 'modus-operandi-deuteranopia)
 ;; (load-theme 'modus-operandi-tinted)
-;; (load-theme 'gruber-darker t nil)
-(load-theme 'modus-vivendi)
+;; (load-theme 'modus-vivendi)
+(load-theme 'gruber-darker t nil)
+
+;; Whitespace mode
+(global-whitespace-mode t)
+(add-to-list 'write-file-functions 'delete-trailing-whitespace)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
@@ -191,7 +197,7 @@
   :init
   (projectile-mode 1)
   :bind (:map projectile-mode-map
-	          ("C-x p" . projectile-command-map)
+              ("C-x p" . projectile-command-map)
               ("C-x p d" . projectile-dired)
               ("C-x p !" . projectile-run-async-shell-command-in-root)))
 
@@ -207,8 +213,8 @@
 (defun duplicate-line ()
   (interactive)
   (let ((column (- (point) (point-at-bol)))
-	    (line (let ((s (thing-at-point 'line t)))
-		        (if s (string-remove-suffix "\n" s) ""))))
+        (line (let ((s (thing-at-point 'line t)))
+                (if s (string-remove-suffix "\n" s) ""))))
     (move-end-of-line 1)
     (newline)
     (insert line)
