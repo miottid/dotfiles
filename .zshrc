@@ -60,9 +60,6 @@ eval "$(fnm env --use-on-cd)"
 # My binaries
 PATH=$HOME/bin:$PATH
 
-# - LLVM
-PATH="$(brew --prefix)/opt/llvm/bin:$PATH"
-
 # - Python
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
