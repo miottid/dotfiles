@@ -25,6 +25,7 @@ alias he="heroku"
 alias cleanup="brew update && brew upgrade && brew cleanup"
 alias emacs="emacs -nw"
 alias htop="btop"
+alias code="cursor"
 
 # - Git
 alias git="hub"
@@ -73,3 +74,5 @@ eval "$(rbenv init - zsh)"
 # Export sensitive keys
 source $HOME/.zsh_sensitive_exports
 
+# - Ocaml
+eval $(opam env)

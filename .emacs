@@ -80,11 +80,11 @@
 (setq split-width-threshold 125)
 
 ;; Show current directory
-(setq-default mode-line-buffer-identification
-              (let ((orig (car mode-line-buffer-identification)))
-                `(:eval (cons
-                         (concat ,orig (abbreviate-file-name default-directory))
-                         (cdr mode-line-buffer-identification)))))
+;; (setq-default mode-line-buffer-identification
+;;               (let ((orig (car mode-line-buffer-identification)))
+;;                 `(:eval (cons
+;;                          (concat ,orig (abbreviate-file-name default-directory))
+;;                          (cdr mode-line-buffer-identification)))))
 
 ;; macOS specific
 (when (memq window-system '(mac ns x))
@@ -126,10 +126,6 @@
 ;; (load-theme 'modus-vivendi)
 (load-theme 'gruber-darker t nil)
 
-;; Whitespace mode
-(global-whitespace-mode t)
-(add-to-list 'write-file-functions 'delete-trailing-whitespace)
-
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -158,7 +154,8 @@
   (js-jsx-mode . lsp-deferred)
   (js-mode . lsp-deferred)
   (typescript-ts-mode . lsp-deferred)
-  (tsx-ts-mode . lsp-deferred))
+  (tsx-ts-mode . lsp-deferred)
+  (rust-ts-mode . lsp-deferred))
 
 ;; Prettier
 (use-package prettier
