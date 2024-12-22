@@ -7,6 +7,7 @@ local config = wezterm.config_builder()
 config.audible_bell = "Disabled"
 
 -- This is where you actually apply your config choices
+-- config.font = wezterm.font("Iosevka Comfy Motion")
 config.font = wezterm.font("Iosevka Nerd Font Mono")
 config.font_size = 16
 config.hide_tab_bar_if_only_one_tab = true

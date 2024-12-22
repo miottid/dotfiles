@@ -21,7 +21,9 @@
         prettier
         markdown-mode
         typescript-ts-mode
-        docker-compose-mode))
+        docker-compose-mode
+        naysayer-theme
+        rainbow-delimiters))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -117,14 +119,21 @@
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
-                    :height 160
+                    :height 180
                     :weight 'normal
                     :width 'normal)
+;; (set-face-attribute 'default nil
+;;                     :family "Iosevka Comfy Motion"
+;;                     :height 160
+;;                     :weight 'normal
+;;                     :width 'normal)
+
 
 ;; (load-theme 'modus-operandi-deuteranopia)
 ;; (load-theme 'modus-operandi-tinted)
 ;; (load-theme 'modus-vivendi)
 (load-theme 'gruber-darker t nil)
+;; (load-theme 'naysayer t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
@@ -155,7 +164,8 @@
   (js-mode . lsp-deferred)
   (typescript-ts-mode . lsp-deferred)
   (tsx-ts-mode . lsp-deferred)
-  (rust-ts-mode . lsp-deferred))
+  (rust-ts-mode . lsp-deferred)
+  (zig-mode . lsp-deferred))
 
 ;; Prettier
 (use-package prettier
@@ -232,5 +242,7 @@
 
 (setq split-height-threshold nil)
 (setq split-width-threshold most-positive-fixnum)
+
+(setq inferior-lisp-program "sbcl")
 
 (load-file custom-file)

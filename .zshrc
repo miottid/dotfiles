@@ -28,7 +28,7 @@ alias htop="btop"
 alias code="cursor"
 
 # - Git
-alias git="hub"
+alias hub="hub"
 alias diff="git diff -- . ':(exclude)package-lock.json'"
 alias co="git checkout"
 alias st="git status"
