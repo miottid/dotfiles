@@ -23,7 +23,8 @@
         typescript-ts-mode
         docker-compose-mode
         naysayer-theme
-        rainbow-delimiters))
+        rainbow-delimiters
+        autothemer))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -82,11 +83,11 @@
 (setq split-width-threshold 125)
 
 ;; Show current directory
-;; (setq-default mode-line-buffer-identification
-;;               (let ((orig (car mode-line-buffer-identification)))
-;;                 `(:eval (cons
-;;                          (concat ,orig (abbreviate-file-name default-directory))
-;;                          (cdr mode-line-buffer-identification)))))
+(setq-default mode-line-buffer-identification
+              (let ((orig (car mode-line-buffer-identification)))
+                `(:eval (cons
+                         (concat ,orig (abbreviate-file-name default-directory))
+                         (cdr mode-line-buffer-identification)))))
 
 ;; macOS specific
 (when (memq window-system '(mac ns x))
@@ -122,18 +123,8 @@
                     :height 180
                     :weight 'normal
                     :width 'normal)
-;; (set-face-attribute 'default nil
-;;                     :family "Iosevka Comfy Motion"
-;;                     :height 160
-;;                     :weight 'normal
-;;                     :width 'normal)
 
-
-;; (load-theme 'modus-operandi-deuteranopia)
-;; (load-theme 'modus-operandi-tinted)
-;; (load-theme 'modus-vivendi)
 (load-theme 'gruber-darker t nil)
-;; (load-theme 'naysayer t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)

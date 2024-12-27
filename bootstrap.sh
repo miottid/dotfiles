@@ -37,3 +37,10 @@ SQLITE_FILE="${HOME}/.sqliterc"
 if [ ! -f $SQLITE_FILE ]; then
     ln -s "${PWD}/.sqliterc" $SQLITE_FILE
 fi
+
+# Ghostty
+GHOSTTY_FILE="${HOME}/.config/ghostty/config"
+if [ ! -f $GHOSTTY_FILE ]; then
+    mkdir -p "${HOME}/.config/ghostty/"
+    ln -s "${PWD}/.config/ghostty/config" $GHOSTTY_FILE
+fi
