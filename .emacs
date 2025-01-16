@@ -129,7 +129,6 @@
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "M-!") 'async-shell-command)
 
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
@@ -235,5 +234,19 @@
 (setq split-width-threshold most-positive-fixnum)
 
 (setq inferior-lisp-program "sbcl")
+
+;; org
+(use-package org
+  :ensure nil
+  :config
+  (setq org-M-RET-may-split-line '((default . nil)))
+  (setq org-insert-heading-respect-content t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+
+  (setq org-directory "~/code/org")
+  (setq org-agenda-files (list org-directory))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)"))))
 
 (load-file custom-file)
