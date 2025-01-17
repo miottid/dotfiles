@@ -123,7 +123,13 @@
                     :height 180
                     :weight 'normal
                     :width 'normal)
+;; (set-face-attribute 'default nil
+;;                     :family "Iosevka Comfy Motion"
+;;                     :height 180
+;;                     :weight 'normal
+;;                     :width 'normal)
 
+;; (load-theme 'modus-vivendi-deuteranopia t nil)
 (load-theme 'gruber-darker t nil)
 
 ;; Keybindings
@@ -185,7 +191,8 @@
 (setq-default dired-dwim-target t)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq dired-hide-details-mode 1)
-(when (string= system-type "darwin") (setq dired-use-ls-dirred nil))
+(when (string= system-type "darwin")
+  (setq dired-use-ls-dirred nil))
 (setq dired-listing-switches "-alh")
 
 ;; Projectile
