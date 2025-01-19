@@ -17,14 +17,15 @@
         projectile
         flycheck
         company
-        lsp-mode
         treesit-auto
         prettier
+        lsp-mode
         markdown-mode
         typescript-ts-mode
         docker-compose-mode
         naysayer-theme
         rainbow-delimiters
+        rainbow-identifiers
         autothemer))
 (unless package-archive-contents
   (package-refresh-contents))
@@ -177,6 +178,14 @@
 (use-package breadcrum
   :init
   (breadcrumb-mode))
+
+;; Rainbow
+(use-package rainbow-identifiers
+  :init
+  (rainbow-identifiers-mode))
+(use-package rainbow-delimiters
+  :init
+  (rainbow-delimiters-mode))
 
 ;; Swiper - Powerful search
 (use-package swiper :config (global-set-key "\C-s" 'swiper))
