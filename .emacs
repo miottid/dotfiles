@@ -7,6 +7,7 @@
 
 (setq package-list
       '(ace-jump-mode
+        breadcrumb
         smex
         swiper
         gruber-darker-theme
@@ -107,6 +108,7 @@
         (process-send-eof proc))))
   (setq interprogram-cut-function 'paste-to-osx)
   (setq interprogram-paste-function 'copy-from-osx)
+  (setq ns-antialias-text nil)
   ;; Fix pixel gap between emacs and other frames
   (setq frame-resize-pixelwise t)
   ;; Open file in finder
@@ -170,6 +172,11 @@
   (ts-mode . prettier-mode)
   (tsx-ts-mode . prettier-mode)
   (json-ts-mode . prettier-mode))
+
+;; Breadcrumb
+(use-package breadcrum
+  :init
+  (breadcrumb-mode))
 
 ;; Swiper - Powerful search
 (use-package swiper :config (global-set-key "\C-s" 'swiper))
