@@ -10,6 +10,14 @@
         breadcrumb
         smex
         swiper
+        consult
+        vertico
+        corfu
+        orderless
+        marginalia
+        embark
+        savehist
+        cape
         gruber-darker-theme
         magit
         multiple-cursors
@@ -59,11 +67,6 @@
 (which-key-mode 1)
 (show-paren-mode 1)
 
-;; ido
-(setq ido-enable-flex-matching t)
-(ido-mode 1)
-(ido-everywhere 1)
-
 (require 'recentf)
 (setq recentf-max-saved-items 50)
 (recentf-mode t)
@@ -83,13 +86,6 @@
 
 (setq split-height-threshold 80)
 (setq split-width-threshold 125)
-
-;; Show current directory
-(setq-default mode-line-buffer-identification
-              (let ((orig (car mode-line-buffer-identification)))
-                `(:eval (cons
-                         (concat ,orig (abbreviate-file-name default-directory))
-                         (cdr mode-line-buffer-identification)))))
 
 ;; macOS specific
 (when (memq window-system '(mac ns x))
@@ -126,21 +122,12 @@
                     :height 180
                     :weight 'normal
                     :width 'normal)
-;; (set-face-attribute 'default nil
-;;                     :family "Iosevka Comfy Motion"
-;;                     :height 180
-;;                     :weight 'normal
-;;                     :width 'normal)
 
-;; (load-theme 'modus-vivendi-deuteranopia t nil)
 (load-theme 'gruber-darker t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
-(require 'smex)
-(global-set-key (kbd "M-x") 'smex)
 
 (which-key-mode)
 
@@ -175,17 +162,18 @@
   (json-ts-mode . prettier-mode))
 
 ;; Breadcrumb
-(use-package breadcrum
+(use-package breadcrumb
   :init
   (breadcrumb-mode))
 
-;; Rainbow
-(use-package rainbow-identifiers
-  :init
-  (rainbow-identifiers-mode))
-(use-package rainbow-delimiters
-  :init
-  (rainbow-delimiters-mode))
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
 
 ;; Swiper - Powerful search
 (use-package swiper :config (global-set-key "\C-s" 'swiper))
@@ -271,5 +259,48 @@
   (setq org-agenda-files (list org-directory))
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)"))))
+
+;; Enable vertico
+(use-package vertico
+  ;; :custom
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; A few more useful configurations...
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+
+(add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (load-file custom-file)
