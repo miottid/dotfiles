@@ -9,6 +9,7 @@ font-size = 16
 
 cursor-style = block
 cursor-style-blink = true
+shell-integration-features = no-cursor
 
 # COLORS
 # background = #24283b
