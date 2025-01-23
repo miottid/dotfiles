@@ -123,7 +123,7 @@
                     :weight 'normal
                     :width 'normal)
 
-(load-theme 'naysayer t nil)
+(load-theme 'modus-vivendi-tritanopia t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)

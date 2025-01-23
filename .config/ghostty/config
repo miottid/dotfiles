@@ -1,11 +1,11 @@
-window-width = 90
-window-height = 29
+window-width = 160
+window-height = 34
 
 background-opacity = 0.9
 background-blur-radius = 20
 
 font-family = Iosevka Nerd Font Mono
-font-size = 18
+font-size = 16
 
 cursor-style = block
 cursor-style-blink = true
