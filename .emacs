@@ -124,7 +124,7 @@
                     :weight 'normal
                     :width 'normal)
 
-(load-theme 'kuronami t nil)
+(load-theme 'modus-operandi-deuteranopia t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
@@ -301,7 +301,6 @@
         '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
-(add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (load-file custom-file)
