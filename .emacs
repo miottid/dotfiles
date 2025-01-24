@@ -34,7 +34,8 @@
         naysayer-theme
         rainbow-delimiters
         rainbow-identifiers
-        autothemer))
+        autothemer
+        kuronami-theme))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -123,7 +124,7 @@
                     :weight 'normal
                     :width 'normal)
 
-(load-theme 'modus-vivendi-tritanopia t nil)
+(load-theme 'kuronami t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
