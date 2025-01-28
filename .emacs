@@ -124,7 +124,7 @@
                     :weight 'normal
                     :width 'normal)
 
-(load-theme 'modus-operandi-deuteranopia t nil)
+(load-theme 'gruber-darker t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
