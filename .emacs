@@ -124,7 +124,7 @@
                     :weight 'normal
                     :width 'normal)
 
-(load-theme 'gruber-darker t nil)
+(load-theme 'naysayer t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
