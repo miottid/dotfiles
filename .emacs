@@ -156,12 +156,15 @@
   (zig-mode . lsp-deferred))
 
 ;; Prettier
-(use-package prettier
-  :hook
-  (typescript-ts-mode . prettier-mode)
-  (ts-mode . prettier-mode)
-  (tsx-ts-mode . prettier-mode)
-  (json-ts-mode . prettier-mode))
+;; (use-package prettier
+;;   :hook
+;;   (typescript-ts-mode . prettier-mode)
+;;   (ts-mode . prettier-mode)
+;;   (tsx-ts-mode . prettier-mode)
+;;   (json-ts-mode . prettier-mode))
+
+(use-package lsp-biome
+  :vc (:url "https://github.com/cxa/lsp-biome"))
 
 ;; Breadcrumb
 (use-package breadcrumb
