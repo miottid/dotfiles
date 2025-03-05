@@ -124,7 +124,8 @@
                     :weight 'normal
                     :width 'normal)
 
-(load-theme 'naysayer t nil)
+;; (load-theme 'gruber-darker t nil)
+(load-theme 'modus-vivendi-deuteranopia t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
