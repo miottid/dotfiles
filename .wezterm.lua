@@ -7,10 +7,7 @@ local config = wezterm.config_builder()
 config.audible_bell = "Disabled"
 
 -- This is where you actually apply your config choices
--- config.font = wezterm.font("Iosevka Comfy Motion")
 config.font = wezterm.font("Iosevka Nerd Font Mono")
--- config.font = wezterm.font("Berkeley Mono Condensed")
--- config.font = wezterm.font("Berkeley Mono")
 config.font_size = 18
 config.hide_tab_bar_if_only_one_tab = true
 config.window_background_opacity = 0.95
@@ -19,12 +16,40 @@ config.initial_rows = 45
 config.initial_cols = 170
 config.window_close_confirmation = "NeverPrompt"
 
--- config.color_scheme = 'darkermatrix'
+-- Configure Leader key
+config.leader = { key = 'q', mods = 'CTRL', timeout_milliseconds = 1000 }
+config.keys = {
+    {
+        key = '|',
+        mods = 'LEADER|SHIFT',
+        action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+    },
+    {
+        key = '-',
+        mods = 'LEADER',
+        action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+    },
+    {
+        key = 'o',
+        mods = 'LEADER',
+        action = wezterm.action.ActivatePaneDirection 'Next',
+    },
+    {
+        key = 'z',
+        mods = 'LEADER',
+        action = wezterm.action.TogglePaneZoomState,
+    },
+    {
+        key = 'q',
+        mods = 'LEADER',
+        action = wezterm.action.SendKey { key = 'q', mods = 'CTRL' },
+    },
+}
+
 config.color_scheme = "Dark Pastel"
 
 config.colors = {
 	foreground = "#ffffff",
-	-- background = "#0d0e1c",
 	background = "#181818",
 
 	ansi = {

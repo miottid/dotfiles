@@ -1,3 +1,5 @@
+(setq custom-file "~/.emacs.custom.el")
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
@@ -7,7 +9,6 @@
 
 (setq package-list
       '(ace-jump-mode
-        breadcrumb
         smex
         swiper
         consult
@@ -44,7 +45,6 @@
 
 (add-to-list 'load-path "~/.emacs.local/")
 
-(setq custom-file "~/.emacs.custom.el")
 (setq inhibit-startup-message t)
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
@@ -56,9 +56,9 @@
 (setq warning-minimum-level :emergency)
 (setq make-backup-files nil)
 (setq display-line-numbers-type 'relative)
-(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
-(setq-default c-basic-offset 4)
+(setq-default tab-width 4)
+(setq c-basic-offset 4)
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -76,14 +76,11 @@
 (defun select-body-function (window)
   (select-window window))
 (setq display-buffer-alist
-      '(
-        ("\\*Occur\\*"
+      '(("\\*Occur\\*"
          (display-buffer-reuse-mode-window
           display-buffer-below-selected)
          (dedicated . t)
-         (window-height . fit-window-to-buffer)
-         )
-        ))
+         (window-height . fit-window-to-buffer))))
 
 (setq split-height-threshold 80)
 (setq split-width-threshold 125)
@@ -124,8 +121,7 @@
                     :weight 'normal
                     :width 'normal)
 
-;; (load-theme 'gruber-darker t nil)
-(load-theme 'modus-vivendi-deuteranopia t nil)
+(load-theme 'gruber-darker t nil)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
@@ -155,21 +151,17 @@
   (rust-ts-mode . lsp-deferred)
   (zig-mode . lsp-deferred))
 
+;; Typescript
+(setq typescript-indent-level 2)
+(setq typescript-auto-indent-flag t)
+
 ;; Prettier
-;; (use-package prettier
-;;   :hook
-;;   (typescript-ts-mode . prettier-mode)
-;;   (ts-mode . prettier-mode)
-;;   (tsx-ts-mode . prettier-mode)
-;;   (json-ts-mode . prettier-mode))
-
-(use-package lsp-biome
-  :vc (:url "https://github.com/cxa/lsp-biome"))
-
-;; Breadcrumb
-(use-package breadcrumb
-  :init
-  (breadcrumb-mode))
+(use-package prettier
+  :hook
+  (typescript-ts-mode . prettier-mode)
+  (ts-mode . prettier-mode)
+  (tsx-ts-mode . prettier-mode)
+  (json-ts-mode . prettier-mode))
 
 (use-package orderless
   :custom
@@ -235,13 +227,8 @@
     (forward-char column)))
 (global-set-key (kbd "C-,") 'duplicate-line)
 
-(require 'c3-mode)
-(add-hook 'c3-mode-hook 'company-mode)
-
 ;; treesit
 (use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
@@ -278,6 +265,11 @@
 (use-package savehist
   :init
   (savehist-mode))
+
+;; Importing simpc-mode
+(require 'simpc-mode)
+;; Automatically enabling simpc-mode on files with extensions like .h, .c, .cpp, .hpp
+(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
 
 ;; A few more useful configurations...
 (use-package emacs
