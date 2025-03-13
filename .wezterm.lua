@@ -35,6 +35,16 @@ config.keys = {
         action = wezterm.action.ActivatePaneDirection 'Next',
     },
     {
+        key = 'o',
+        mods = 'LEADER|CTRL',
+        action = wezterm.action.PaneSelect { mode = 'SwapWithActiveKeepFocus' },
+    },
+    {
+        key = 'w',
+        mods = 'LEADER',
+        action = wezterm.action.PaneSelect,
+    },
+    {
         key = 'z',
         mods = 'LEADER',
         action = wezterm.action.TogglePaneZoomState,
