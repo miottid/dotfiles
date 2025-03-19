@@ -117,7 +117,7 @@
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
-                    :height 180
+                    :height 220
                     :weight 'normal
                     :width 'normal)
 
@@ -152,7 +152,8 @@
   (zig-mode . lsp-deferred))
 
 ;; Typescript
-(setq typescript-indent-level 2)
+(setq typescript-ts-mode-indent-offset 4)
+(setq typescript-indent-level 4)
 (setq typescript-auto-indent-flag t)
 
 ;; Prettier
@@ -267,9 +268,13 @@
   (savehist-mode))
 
 ;; Importing simpc-mode
-(require 'simpc-mode)
+;; (require 'simpc-mode)
 ;; Automatically enabling simpc-mode on files with extensions like .h, .c, .cpp, .hpp
-(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
+;; (add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
+
+;; Customize C Indentation
+;; (setq c-ts-mode-indent-style 'K&R)
+(setq c-ts-mode-indent-offset 4)
 
 ;; A few more useful configurations...
 (use-package emacs
