@@ -1,22 +1,24 @@
-export EDITOR="emacs -nw"
-export VISUAL="emacs -nw"
+if command -v emacs &> /dev/null; then
+    export EDITOR="emacs -nw"
+    export VISUAL="emacs -nw"
+else
+    export EDITOR="vim"
+    export VISUAL="vim"
+fi
 
-# - Oh my zsh
+# - ohmyzsh
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="zhann"
 plugins=(git)
-
 source $ZSH/oh-my-zsh.sh
 
-# GPG
+# gpg
 export GPG_TTY=$(tty)
 
-# Aliases
-
-# - AWS
+# - aws
 alias aws_get_token="python $HOME/bin/update_aws_token.py"
 
-# - Apps
+# - apps
 alias vim="nvim"
 alias opena="open -a"
 alias code="open -a Visual\ Studio\ Code\ -\ Insiders"
@@ -27,7 +29,7 @@ alias emacs="emacs -nw"
 alias htop="btop"
 alias code="cursor"
 
-# - Git
+# - git
 alias hub="hub"
 alias diff="git diff -- . ':(exclude)package-lock.json'"
 alias co="git checkout"
@@ -37,39 +39,43 @@ alias gbd="git for-each-ref --format '%(refname:short)' refs/heads | grep -v \"m
 alias git-fetch-all="find . -name .git -type d -execdir git pull -v ';'"
 alias ggpull="git pull --rebase"
 
-# - Docker
+# - docker
 alias dc="docker compose"
 
-# - Tmux
+# - tmux
 alias tn="tmux new -s"
 alias tt="tmux attach-session -t"
 alias tl="tmux list-session"
 alias td="tmux kill-session -t"
 
-# - npm
+# - node
 alias npmi="npm i"
+command -v fnm > /dev/null || eval "$(fnm env --use-on-cd)"
 
 # - ruby
 alias bi="bundle install"
 alias be="bundle exec"
 alias bu="bundle update"
-
-# - fnm
-eval "$(fnm env --use-on-cd)"
-
-# My binaries
-PATH=$HOME/bin:$PATH
+command -v rbenv &> /dev/null || eval "$(rbenv init - zsh)"
 
 # - Python
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# - rbenv
-eval "$(rbenv init - zsh)"
-
-# Export sensitive keys
-source $HOME/.zsh_sensitive_exports
+if command -v pyenv &> /dev/null; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
 
 # - Ocaml
-eval $(opam env)
+command -v opam &> /dev/null || eval $(opam env)
+
+# - load extra source files
+ZSH_SOURCES_DIR="$HOME/.zsh_sources"
+if [ -d "$ZSH_SOURCES_DIR" ]; then
+    find "$ZSH_SOURCES_DIR" -type f -maxdepth 1 | while read -r file; do
+        source "$file"
+    done
+fi
+
+# My binaries
+if [ -d "$HOME/bin" ]; then
+    export PATH="$HOME/bin:$PATH"
+fi
