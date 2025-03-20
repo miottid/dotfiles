@@ -117,7 +117,7 @@
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
-                    :height 220
+                    :height 200
                     :weight 'normal
                     :width 'normal)
 
