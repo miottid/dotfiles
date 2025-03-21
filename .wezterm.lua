@@ -17,44 +17,44 @@ config.initial_cols = 170
 config.window_close_confirmation = "NeverPrompt"
 
 -- Configure Leader key
-config.leader = { key = 'q', mods = 'CTRL', timeout_milliseconds = 1000 }
-config.keys = {
-    {
-        key = '|',
-        mods = 'LEADER|SHIFT',
-        action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
-    },
-    {
-        key = '-',
-        mods = 'LEADER',
-        action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
-    },
-    {
-        key = 'o',
-        mods = 'LEADER',
-        action = wezterm.action.ActivatePaneDirection 'Next',
-    },
-    {
-        key = 'o',
-        mods = 'LEADER|CTRL',
-        action = wezterm.action.PaneSelect { mode = 'SwapWithActiveKeepFocus' },
-    },
-    {
-        key = 'w',
-        mods = 'LEADER',
-        action = wezterm.action.PaneSelect,
-    },
-    {
-        key = 'z',
-        mods = 'LEADER',
-        action = wezterm.action.TogglePaneZoomState,
-    },
-    {
-        key = 'q',
-        mods = 'LEADER',
-        action = wezterm.action.SendKey { key = 'q', mods = 'CTRL' },
-    },
-}
+-- config.leader = { key = 'q', mods = 'CTRL', timeout_milliseconds = 1000 }
+-- config.keys = {
+--     {
+--         key = '|',
+--         mods = 'LEADER|SHIFT',
+--         action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+--     },
+--     {
+--         key = '-',
+--         mods = 'LEADER',
+--         action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+--     },
+--     {
+--         key = 'o',
+--         mods = 'LEADER',
+--         action = wezterm.action.ActivatePaneDirection 'Next',
+--     },
+--     {
+--         key = 'o',
+--         mods = 'LEADER|CTRL',
+--         action = wezterm.action.PaneSelect { mode = 'SwapWithActiveKeepFocus' },
+--     },
+--     {
+--         key = 'w',
+--         mods = 'LEADER',
+--         action = wezterm.action.PaneSelect,
+--     },
+--     {
+--         key = 'z',
+--         mods = 'LEADER',
+--         action = wezterm.action.TogglePaneZoomState,
+--     },
+--     {
+--         key = 'q',
+--         mods = 'LEADER',
+--         action = wezterm.action.SendKey { key = 'q', mods = 'CTRL' },
+--     },
+-- }
 
 config.color_scheme = "Dark Pastel"
 

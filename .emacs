@@ -121,8 +121,6 @@
                     :weight 'normal
                     :width 'normal)
 
-(load-theme 'gruber-darker t nil)
-
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -193,8 +191,7 @@
 (setq-default dired-dwim-target t)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq dired-hide-details-mode 1)
-(when (string= system-type "darwin")
-  (setq dired-use-ls-dirred nil))
+(when (string= system-type "darwin") (setq dired-use-ls-dirred nil))
 (setq dired-listing-switches "-alh")
 
 ;; Projectile
@@ -303,5 +300,8 @@
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+;; (add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
+
+(load-theme 'gruber-darker t nil)
 
 (load-file custom-file)
