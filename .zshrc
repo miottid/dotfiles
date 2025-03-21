@@ -50,13 +50,13 @@ alias td="tmux kill-session -t"
 
 # - node
 alias npmi="npm i"
-command -v fnm > /dev/null || eval "$(fnm env --use-on-cd)"
+command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"
 
 # - ruby
 alias bi="bundle install"
 alias be="bundle exec"
 alias bu="bundle update"
-command -v rbenv &> /dev/null || eval "$(rbenv init - zsh)"
+command -v rbenv &> /dev/null && eval "$(rbenv init - zsh)"
 
 # - Python
 if command -v pyenv &> /dev/null; then
@@ -65,7 +65,7 @@ if command -v pyenv &> /dev/null; then
 fi
 
 # - Ocaml
-command -v opam &> /dev/null || eval $(opam env)
+command -v opam &> /dev/null && eval $(opam env)
 
 # - load extra source files
 ZSH_SOURCES_DIR="$HOME/.zsh_sources"
