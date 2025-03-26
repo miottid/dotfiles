@@ -59,6 +59,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq c-basic-offset 4)
+(setq c-indent-offset 4)
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -148,6 +149,12 @@
   (tsx-ts-mode . lsp-deferred)
   (rust-ts-mode . lsp-deferred)
   (zig-mode . lsp-deferred))
+
+(defun set-c-indentation ()
+  (setq-default c-ts-mode-indent-style 'linux
+                c-ts-mode-indent-offset 4
+                tab-width 4))
+(add-hook 'c-ts-mode-hook 'set-c-indentation)
 
 ;; Typescript
 (setq typescript-ts-mode-indent-offset 4)
