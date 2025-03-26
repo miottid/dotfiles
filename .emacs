@@ -27,7 +27,6 @@
         flycheck
         company
         treesit-auto
-        prettier
         lsp-mode
         markdown-mode
         typescript-ts-mode
@@ -161,14 +160,6 @@
 (setq typescript-indent-level 4)
 (setq typescript-auto-indent-flag t)
 
-;; Prettier
-(use-package prettier
-  :hook
-  (typescript-ts-mode . prettier-mode)
-  (ts-mode . prettier-mode)
-  (tsx-ts-mode . prettier-mode)
-  (json-ts-mode . prettier-mode))
-
 (use-package orderless
   :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
@@ -271,44 +262,7 @@
   :init
   (savehist-mode))
 
-;; Importing simpc-mode
-;; (require 'simpc-mode)
-;; Automatically enabling simpc-mode on files with extensions like .h, .c, .cpp, .hpp
-;; (add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
-
-;; Customize C Indentation
-;; (setq c-ts-mode-indent-style 'K&R)
-(setq c-ts-mode-indent-offset 4)
-
-;; A few more useful configurations...
-(use-package emacs
-  :custom
-  ;; Support opening new minibuffers from inside existing minibuffers.
-  (enable-recursive-minibuffers t)
-  ;; Hide commands in M-x which do not work in the current mode.  Vertico
-  ;; commands are hidden in normal buffers. This setting is useful beyond
-  ;; Vertico.
-  (read-extended-command-predicate #'command-completion-default-include-p)
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  (defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
-
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-;; (add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
-
-(load-theme 'gruber-darker t nil)
+(require 'xcode-dark-theme)
+(load-theme 'xcode-dark t nil)
 
 (load-file custom-file)
