@@ -262,7 +262,6 @@
   :init
   (savehist-mode))
 
-(require 'xcode-dark-theme)
-(load-theme 'xcode-dark t nil)
+(load-theme 'gruber-darker t nil)
 
 (load-file custom-file)
