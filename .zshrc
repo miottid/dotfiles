@@ -37,6 +37,7 @@ alias st="git status"
 alias gaa="git add ."
 alias gci="git branch | fzf --reverse | xargs git checkout"
 alias gbd="git for-each-ref --format '%(refname:short)' refs/heads | grep -v 'master\|main' | fzf --reverse | xargs git branch -D"
+alias gbm="git for-each-ref --format '%(refname:short)' refs/heads | fzf --reverse | xargs git merge"
 alias git-fetch-all="find . -name .git -type d -execdir git pull -v ';'"
 alias ggpull="git pull --rebase"
 
