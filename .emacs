@@ -112,12 +112,12 @@
     (shell-command "open -R .")))
 
 ;; Set starting frame position and size
-(setq initial-frame-alist '((top . 0) (left . 0) (width . 126) (height . 70)))
+(setq initial-frame-alist '((top . 100) (left . 100) (width . 126) (height . 60)))
 
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
-                    :height 200
+                    :height 180
                     :weight 'normal
                     :width 'normal)
 
