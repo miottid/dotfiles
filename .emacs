@@ -112,7 +112,7 @@
     (shell-command "open -R .")))
 
 ;; Set starting frame position and size
-(setq initial-frame-alist '((top . 100) (left . 100) (width . 126) (height . 60)))
+(setq initial-frame-alist '((top . 100) (left . 100) (width . 120) (height . 50)))
 
 ;; Configure font size
 (set-face-attribute 'default nil
@@ -263,7 +263,7 @@
   (savehist-mode))
 
 (load-theme 'gruber-darker t nil)
-(set-frame-parameter (selected-frame) 'alpha '(95 95))
-(add-to-list 'default-frame-alist '(alpha 95 95))
+(set-frame-parameter (selected-frame) 'alpha '(90 90))
+(add-to-list 'default-frame-alist '(alpha 90 90))
 
 (load-file custom-file)
