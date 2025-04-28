@@ -10,7 +10,7 @@ config.audible_bell = "Disabled"
 config.font = wezterm.font("Iosevka Nerd Font Mono")
 config.font_size = 18
 config.hide_tab_bar_if_only_one_tab = true
-config.window_background_opacity = 0.90
+config.window_background_opacity = 0.95
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 config.initial_rows = 45
 config.initial_cols = 170
@@ -83,6 +83,23 @@ config.colors = {
 		"#ffffff",
 	},
 }
+
+-- Start wezterm in the center of screen
+-- wezterm.on("gui-startup", function(cmd)
+-- 	local screen = wezterm.gui.screens().active
+-- 	local ratio = 0.5
+-- 	local width, height = screen.width * ratio, screen.height * ratio
+    
+-- 	local tab, pane, window = wezterm.mux.spawn_window(cmd or {
+-- 		position = {
+--             x = (screen.width - width) / 2,
+--             y = (screen.height - height) / 2,
+--             origin = 'ActiveScreen',
+--         },
+-- 	})
+
+-- 	window:gui_window():set_inner_size(width, height)
+-- end)
 
 -- and finally, return the configuration to wezterm
 return config

@@ -112,12 +112,12 @@
     (shell-command "open -R .")))
 
 ;; Set starting frame position and size
-(setq initial-frame-alist '((top . 100) (left . 100) (width . 120) (height . 50)))
+(setq initial-frame-alist '((top . 100) (left . 80) (width . 100) (height . 40)))
 
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
-                    :height 180
+                    :height 200
                     :weight 'normal
                     :width 'normal)
 
@@ -263,7 +263,7 @@
   (savehist-mode))
 
 (load-theme 'gruber-darker t nil)
-(set-frame-parameter (selected-frame) 'alpha '(90 90))
-(add-to-list 'default-frame-alist '(alpha 90 90))
+(set-frame-parameter (selected-frame) 'alpha '(95 95))
+(add-to-list 'default-frame-alist '(alpha 95 95))
 
 (load-file custom-file)
