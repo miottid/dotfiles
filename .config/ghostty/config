@@ -1,16 +1,24 @@
 window-width = 160
 window-height = 34
 
-background-opacity = 0.9
-background-blur-radius = 20
+background-opacity = 0.85
+# background-blur-radius = 20
 
-# font-family = Iosevka Nerd Font Mono
+font-family = Iosevka Nerd Font Mono
 font-family = Berkeley Mono Condensed
-font-size = 16
+font-size = 19
+
+macos-option-as-alt = true
 
 cursor-style = block
 cursor-style-blink = true
 shell-integration-features = no-cursor
+
+# Quick Terminal
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-animation-duration = 0
+quick-terminal-screen = macos-menu-bar
 
 # COLORS
 # background = #24283b
