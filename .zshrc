@@ -81,3 +81,18 @@ fi
 if [ -d "$HOME/bin" ]; then
     export PATH="$HOME/bin:$PATH"
 fi
+
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/davidmiotti/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/davidmiotti/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/davidmiotti/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/davidmiotti/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+export GOPATH=$HOME/go
+export GOROOT=/opt/homebrew/Cellar/go/1.24.3/libexec
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin

@@ -149,6 +149,23 @@
   (rust-ts-mode . lsp-deferred)
   (zig-mode . lsp-deferred))
 
+(use-package go-ts-mode
+  :hook
+  (go-ts-mode . lsp-deferred)
+  (go-ts-mode . go-format-on-save-mode)
+  :init
+  (add-to-list 'treesit-language-source-alist '(go "https://github.com/tree-sitter/tree-sitter-go"))
+  (add-to-list 'treesit-language-source-alist '(gomod "https://github.com/camdencheek/tree-sitter-go-mod"))
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+  (add-to-list 'auto-mode-alist '("/go\\.mod\\'" .  go-mod-ts-mode))
+  :config
+  (reformatter-define go-format
+    :program "goimports"
+    :args '("/dev/stdin"))
+  )
+
+(setq go-ts-mode-indent-offset 4)
+
 (defun set-c-indentation ()
   (setq-default c-ts-mode-indent-style 'linux
                 c-ts-mode-indent-offset 4
@@ -262,8 +279,12 @@
   :init
   (savehist-mode))
 
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+
 (load-theme 'gruber-darker t nil)
-(set-frame-parameter (selected-frame) 'alpha '(95 95))
-(add-to-list 'default-frame-alist '(alpha 95 95))
+(set-frame-parameter (selected-frame) 'alpha '(100 100))
+(add-to-list 'default-frame-alist '(alpha 100 100))
 
 (load-file custom-file)
