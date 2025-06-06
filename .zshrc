@@ -28,6 +28,7 @@ alias cleanup="brew update && brew upgrade && brew cleanup"
 alias emacs="emacs -nw"
 alias htop="btop"
 alias code="cursor"
+alias simulator="open -a Simulator.app"
 
 # - git
 alias hub="hub"
