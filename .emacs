@@ -163,7 +163,6 @@
     :program "goimports"
     :args '("/dev/stdin"))
   )
-
 (setq go-ts-mode-indent-offset 4)
 
 (defun set-c-indentation ()
@@ -259,7 +258,6 @@
   (setq org-insert-heading-respect-content t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
-
   (setq org-directory "~/code/org")
   (setq org-agenda-files (list org-directory))
   (setq org-todo-keywords
@@ -278,10 +276,6 @@
 (use-package savehist
   :init
   (savehist-mode))
-
-;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
-;; ## end of OPAM user-setup addition for emacs / base ## keep this line
 
 (load-theme 'gruber-darker t nil)
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
