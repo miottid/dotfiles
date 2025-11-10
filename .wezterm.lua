@@ -10,7 +10,8 @@ config.audible_bell = "Disabled"
 
 -- This is where you actually apply your config choices
 config.font = wezterm.font("Iosevka Nerd Font Mono")
-config.font_size = 18
+-- config.font = wezterm.font("Myna")
+config.font_size = 17
 config.hide_tab_bar_if_only_one_tab = true
 config.window_background_opacity = 0.95
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
