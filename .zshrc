@@ -1,10 +1,5 @@
-if command -v emacs &> /dev/null; then
-    export EDITOR="emacs -nw"
-    export VISUAL="emacs -nw"
-else
-    export EDITOR="vim"
-    export VISUAL="vim"
-fi
+export EDITOR="emacs -nw"
+export VISUAL="emacs -nw"
 
 # - ohmyzsh
 export ZSH="$HOME/.oh-my-zsh"
@@ -67,9 +62,6 @@ if command -v pyenv &> /dev/null; then
     eval "$(pyenv init -)"
 fi
 
-# - Ocaml
-command -v opam &> /dev/null && eval $(opam env)
-
 # - load extra source files
 ZSH_SOURCES_DIR="$HOME/.zsh_sources"
 if [ -d "$ZSH_SOURCES_DIR" ]; then
@@ -83,10 +75,6 @@ if [ -d "$HOME/bin" ]; then
     export PATH="$HOME/bin:$PATH"
 fi
 
-export WASMTIME_HOME="$HOME/.wasmtime"
-
-export PATH="$WASMTIME_HOME/bin:$PATH"
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/davidmiotti/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/davidmiotti/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
@@ -94,6 +82,16 @@ if [ -f '/Users/davidmiotti/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '
 if [ -f '/Users/davidmiotti/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/davidmiotti/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 export GOPATH=$HOME/go
-export GOROOT=/opt/homebrew/Cellar/go/1.24.3/libexec
+export GOBIN=$GOPATH/bin
+# Homebrew
+export GOROOT="$(brew --prefix golang)/libexec"
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/Users/davidmiotti/.opam/opam-init/init.zsh' ]] || source '/Users/davidmiotti/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
