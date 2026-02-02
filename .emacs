@@ -24,7 +24,6 @@
         smex
         swiper
         consult
-        vertico
         corfu
         orderless
         marginalia
@@ -269,16 +268,6 @@
   (setq org-agenda-files (list org-directory))
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCEL(c!)" "DONE(d!)"))))
-
-;; Enable vertico
-(use-package vertico
-  ;; :custom
-  ;; (vertico-scroll-margin 0) ;; Different scroll margin
-  ;; (vertico-count 20) ;; Show more candidates
-  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
-  :init
-  (vertico-mode))
 
 (use-package savehist
   :init
