@@ -41,6 +41,7 @@
         lsp-mode
         markdown-mode
         typescript-ts-mode
+        astro-ts-mode
         docker-compose-mode
         naysayer-theme
         rainbow-delimiters
@@ -165,6 +166,7 @@
   (js-mode . lsp-deferred)
   (typescript-ts-mode . lsp-deferred)
   (tsx-ts-mode . lsp-deferred)
+  (astro-ts-mode . lsp-deferred)
   (rust-ts-mode . lsp-deferred)
   (zig-mode . lsp-deferred))
 
@@ -178,6 +180,28 @@
 (setq typescript-ts-mode-indent-offset 4)
 (setq typescript-indent-level 4)
 (setq typescript-auto-indent-flag t)
+
+;; Astro
+(use-package astro-ts-mode
+  :ensure t
+  :mode "\\.astro\\'"
+  :config
+  (setq astro-ts-mode-indent-offset 4))
+
+;; Astro Prettier formatting
+(defun astro-format-buffer ()
+  "Format the current Astro buffer with Prettier."
+  (when (eq major-mode 'astro-ts-mode)
+    (let ((current-point (point)))
+      (shell-command-on-region
+       (point-min) (point-max)
+       "npx prettier --parser=astro --stdin-filepath=file.astro"
+       nil t)
+      (goto-char current-point))))
+
+(add-hook 'astro-ts-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'astro-format-buffer nil t)))
 
 (use-package orderless
   :custom
