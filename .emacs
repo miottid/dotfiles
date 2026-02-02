@@ -1,3 +1,15 @@
+;; Performance: Increase GC threshold during startup
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
+
+;; Reduce startup screen rendering
+(setq frame-inhibit-implied-resize t)
+
+;; Native compilation settings
+(when (featurep 'native-compile)
+  (setq native-comp-async-report-warnings-errors nil)
+  (setq native-comp-deferred-compilation t))
+
 (setq custom-file "~/.emacs.custom.el")
 
 (require 'package)
@@ -139,6 +151,10 @@
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-enable-snippet nil)
   (setq company-lsp-enable-snippet nil)
+  ;; Performance optimizations
+  (setq lsp-idle-delay 0.5)
+  (setq lsp-log-io nil)
+  (setq read-process-output-max (* 1024 1024))
   :config
   (setq lsp-headerline-breadcrumb-enable nil)
   (lsp-enable-which-key-integration t)
@@ -201,6 +217,8 @@
   :ensure t
   :init
   (projectile-mode 1)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'alien)
   :bind (:map projectile-mode-map
               ("C-x p" . projectile-command-map)
               ("C-x p d" . projectile-dired)
@@ -241,6 +259,7 @@
 ;; org
 (use-package org
   :ensure nil
+  :defer t
   :config
   (setq org-M-RET-may-split-line '((default . nil)))
   (setq org-insert-heading-respect-content t)
@@ -269,5 +288,11 @@
 (load-theme 'modus-operandi-deuteranopia t nil)
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
 (add-to-list 'default-frame-alist '(alpha 100 100))
+
+;; Reset GC threshold after startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 16 1024 1024)  ; 16MB
+                  gc-cons-percentage 0.1)))
 
 (load-file custom-file)
