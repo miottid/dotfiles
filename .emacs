@@ -35,7 +35,9 @@
         rainbow-delimiters
         rainbow-identifiers
         autothemer
-        kuronami-theme))
+        kuronami-theme
+        use-package
+        which-key))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -82,9 +84,6 @@
          (dedicated . t)
          (window-height . fit-window-to-buffer))))
 
-(setq split-height-threshold 80)
-(setq split-width-threshold 125)
-
 ;; macOS specific
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize)
@@ -117,7 +116,7 @@
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
-                    :height 180
+                    :height 150
                     :weight 'normal
                     :width 'normal)
 
@@ -125,7 +124,12 @@
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(which-key-mode)
+;; Compilation with ANSI colors
+(add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
+
+;; Uncomment these if you install and configure biomejs-format-mode
+;; (add-hook 'json-ts-mode-hook 'biomejs-format-mode)
+;; (add-hook 'typescript-ts-mode-hook 'biomejs-format-mode)
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -148,22 +152,6 @@
   (tsx-ts-mode . lsp-deferred)
   (rust-ts-mode . lsp-deferred)
   (zig-mode . lsp-deferred))
-
-(use-package go-ts-mode
-  :hook
-  (go-ts-mode . lsp-deferred)
-  (go-ts-mode . go-format-on-save-mode)
-  :init
-  (add-to-list 'treesit-language-source-alist '(go "https://github.com/tree-sitter/tree-sitter-go"))
-  (add-to-list 'treesit-language-source-alist '(gomod "https://github.com/camdencheek/tree-sitter-go-mod"))
-  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
-  (add-to-list 'auto-mode-alist '("/go\\.mod\\'" .  go-mod-ts-mode))
-  :config
-  (reformatter-define go-format
-    :program "goimports"
-    :args '("/dev/stdin"))
-  )
-(setq go-ts-mode-indent-offset 4)
 
 (defun set-c-indentation ()
   (setq-default c-ts-mode-indent-style 'linux
@@ -205,7 +193,7 @@
 (setq-default dired-dwim-target t)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq dired-hide-details-mode 1)
-(when (string= system-type "darwin") (setq dired-use-ls-dirred nil))
+(when (string= system-type "darwin") (setq dired-use-ls-dired nil))
 (setq dired-listing-switches "-alh")
 
 ;; Projectile
@@ -277,7 +265,8 @@
   :init
   (savehist-mode))
 
-(load-theme 'gruber-darker t nil)
+;; (load-theme 'gruber-darker t nil)
+(load-theme 'modus-operandi-deuteranopia t nil)
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
 (add-to-list 'default-frame-alist '(alpha 100 100))
 
