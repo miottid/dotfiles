@@ -188,6 +188,10 @@
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
+;; Fido mode - built-in completion
+(fido-mode 1)
+(fido-vertical-mode 1)
+
 ;; Swiper - Powerful search
 (use-package swiper :config (global-set-key "\C-s" 'swiper))
 
