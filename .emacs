@@ -20,7 +20,7 @@
 (package-initialize)
 
 (setq package-list
-      '(ace-jump-mode
+      '(avy
         swiper
         consult
         corfu
@@ -32,15 +32,12 @@
         magit
         multiple-cursors
         exec-path-from-shell
-        flycheck
         treesit-auto
         lsp-mode
         markdown-mode
         typescript-ts-mode
         astro-ts-mode
-        docker-compose-mode
-        use-package
-        which-key))
+        docker-compose-mode))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -69,16 +66,14 @@
 (scroll-bar-mode 0)
 (column-number-mode t)
 (global-display-line-numbers-mode 1)
-(which-key-mode 1)
 (show-paren-mode 1)
+(which-key-mode 1)
 
 (require 'recentf)
 (setq recentf-max-saved-items 50)
 (recentf-mode t)
 
 ;; Window management
-(defun select-body-function (window)
-  (select-window window))
 (setq display-buffer-alist
       '(("\\*Occur\\*"
          (display-buffer-reuse-mode-window
@@ -139,8 +134,6 @@
   (lsp-enable-which-key-integration t)
   :hook
   (c-ts-mode . lsp-deferred)
-  (c++-mode . lsp-deferred)
-  (rust-mode . lsp-deferred)
   (js-jsx-mode . lsp-deferred)
   (js-mode . lsp-deferred)
   (typescript-ts-mode . lsp-deferred)
@@ -150,9 +143,9 @@
   (zig-mode . lsp-deferred))
 
 (defun set-c-indentation ()
-  (setq-default c-ts-mode-indent-style 'linux
-                c-ts-mode-indent-offset 4
-                tab-width 4))
+  (setq-local c-ts-mode-indent-style 'linux
+              c-ts-mode-indent-offset 4
+              tab-width 4))
 (add-hook 'c-ts-mode-hook 'set-c-indentation)
 
 ;; Typescript
@@ -223,10 +216,6 @@
   ("M-s l" . consult-line)
   ("M-s r" . consult-ripgrep))
 
-;; Fido mode - built-in completion
-(fido-mode 1)
-(fido-vertical-mode 1)
-
 ;; Swiper - Powerful search
 (use-package swiper :config (global-set-key "\C-s" 'swiper))
 
@@ -239,8 +228,11 @@
   (global-set-key (kbd "C-\"") 'mc/skip-to-next-like-this)
   (global-set-key (kbd "C-:") 'mc/skip-to-previous-like-this))
 
-(use-package ace-jump-mode
-  :config (define-key global-map (kbd "C-c C-SPC" ) 'ace-jump-mode))
+(use-package avy
+  :bind
+  ("C-c C-SPC" . avy-goto-char-timer)
+  ("M-g w" . avy-goto-word-1)
+  ("M-g l" . avy-goto-line))
 
 (require 'dired-x)
 (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
@@ -293,9 +285,6 @@
 
 ;; (load-theme 'gruber-darker t nil)
 (load-theme 'modus-operandi-deuteranopia t nil)
-(set-frame-parameter (selected-frame) 'alpha '(100 100))
-(add-to-list 'default-frame-alist '(alpha 100 100))
-
 ;; Reset GC threshold after startup
 (add-hook 'emacs-startup-hook
           (lambda ()
