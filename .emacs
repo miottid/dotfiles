@@ -88,7 +88,6 @@
         mac-command-key-is-meta t
         mac-command-modifier 'meta
         mac-option-modifier 'none)
-  (setq ns-antialias-text nil)
   ;; Fix pixel gap between emacs and other frames
   (setq frame-resize-pixelwise t)
   ;; Open file in finder
