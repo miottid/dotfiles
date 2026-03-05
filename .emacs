@@ -70,6 +70,7 @@
 
 (require 'recentf)
 (setq recentf-max-saved-items 50)
+(setq recentf-exclude '("/node_modules/" "/\\.git/" "/elpa/"))
 (recentf-mode t)
 
 ;; Window management
@@ -157,6 +158,15 @@
   (zig-mode . eglot-ensure)
   :config
   (setq eglot-autoshutdown t)
+  (setq eglot-events-buffer-size 0)
+  (setq eglot-send-changes-idle-time 0.5)
+  ;; Disable file watchers to avoid lag in large monorepos
+  (setq eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (defun eglot-disable-file-watchers (fn &rest args)
+    "Disable eglot file watchers for performance in large repos."
+    (cl-letf (((symbol-function 'eglot--register-filewatch) #'ignore))
+      (apply fn args)))
+  (advice-add 'eglot--managed-mode :around #'eglot-disable-file-watchers)
   (add-to-list 'eglot-server-programs
                '(astro-ts-mode . ("astro-ls" "--stdio"))))
 
