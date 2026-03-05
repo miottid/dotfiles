@@ -31,6 +31,9 @@
         multiple-cursors
         exec-path-from-shell
         envrc
+        vertico
+        diff-hl
+        vundo
         treesit-auto
         markdown-mode
         markdown-toc
@@ -67,6 +70,12 @@
 (global-display-line-numbers-mode 1)
 (show-paren-mode 1)
 (which-key-mode 1)
+(delete-selection-mode 1)
+(electric-pair-mode 1)
+(save-place-mode 1)
+(global-auto-revert-mode 1)
+(repeat-mode 1)
+(pixel-scroll-precision-mode 1)
 
 (require 'recentf)
 (setq recentf-max-saved-items 50)
@@ -217,6 +226,10 @@
 
 (add-hook 'astro-ts-mode-hook #'astro-format-on-save)
 
+(use-package vertico
+  :init
+  (vertico-mode))
+
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
@@ -262,7 +275,8 @@
   ("M-g g" . consult-goto-line)
   ("M-g M-g" . consult-goto-line)
   ("M-s l" . consult-line)
-  ("M-s r" . consult-ripgrep))
+  ("M-s r" . consult-ripgrep)
+  ("M-g i" . consult-imenu))
 
 (use-package multiple-cursors
   :bind
@@ -288,6 +302,17 @@
 (setq dired-listing-switches "-alh")
 
 (global-set-key (kbd "C-,") 'duplicate-dwim)
+
+(use-package diff-hl
+  :hook
+  (prog-mode . diff-hl-mode)
+  (dired-mode . diff-hl-dired-mode)
+  (magit-post-refresh . diff-hl-magit-post-refresh)
+  :custom
+  (diff-hl-draw-borders nil))
+
+(use-package vundo
+  :bind ("C-x u" . vundo))
 
 ;; treesit
 (use-package treesit-auto
