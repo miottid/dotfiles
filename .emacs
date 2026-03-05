@@ -44,7 +44,6 @@
 (add-to-list 'load-path "~/.emacs.local/")
 
 (setq inhibit-startup-message t)
-(setq visible-bell nil)
 (setq ring-bell-function 'ignore)
 (setq vc-follow-symlinks t)
 (setq use-dialog-box nil)
@@ -79,7 +78,7 @@
          (window-height . fit-window-to-buffer))))
 
 ;; macOS specific
-(when (memq window-system '(mac ns x))
+(when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
   ;; Replace Meta with CMD
   (setq mac-option-key-is-meta nil
@@ -173,9 +172,6 @@
 
 (use-package orderless
   :custom
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
-  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
@@ -210,17 +206,16 @@
   ("C-x b" . consult-buffer)
   ("M-g g" . consult-goto-line)
   ("M-g M-g" . consult-goto-line)
-  ("M-s l" . consult-line)
   ("M-s r" . consult-ripgrep))
 
 (use-package multiple-cursors
-  :config
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-\"") 'mc/skip-to-next-like-this)
-  (global-set-key (kbd "C-:") 'mc/skip-to-previous-like-this))
+  :bind
+  ("C-S-c C-S-c" . mc/edit-lines)
+  ("C->" . mc/mark-next-like-this)
+  ("C-<" . mc/mark-previous-like-this)
+  ("C-c C-<" . mc/mark-all-like-this)
+  ("C-\"" . mc/skip-to-next-like-this)
+  ("C-:" . mc/skip-to-previous-like-this))
 
 (use-package avy
   :bind
@@ -275,4 +270,5 @@
             (setq gc-cons-threshold (* 16 1024 1024)  ; 16MB
                   gc-cons-percentage 0.1)))
 
-(load-file custom-file)
+(when (file-exists-p custom-file)
+  (load-file custom-file))
