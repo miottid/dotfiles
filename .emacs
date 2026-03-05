@@ -327,6 +327,8 @@
 
 (add-hook 'project-find-functions #'project-find-package-json)
 
+(setq project-vc-ignores '("node_modules/" "dist/" "build/" ".next/" ".turbo/"))
+
 ;; editorconfig
 (editorconfig-mode 1)
 
