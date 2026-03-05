@@ -33,6 +33,8 @@
         envrc
         treesit-auto
         markdown-mode
+        markdown-toc
+        olivetti
         typescript-ts-mode
         astro-ts-mode))
 (unless package-archive-contents
@@ -162,6 +164,20 @@
               c-ts-mode-indent-offset 4
               tab-width 4))
 (add-hook 'c-ts-mode-hook 'set-c-indentation)
+
+;; Markdown
+(use-package markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
+  :hook
+  (markdown-mode . visual-line-mode)
+  (markdown-mode . flyspell-mode)
+  (markdown-mode . olivetti-mode))
+
+(use-package olivetti
+  :custom
+  (olivetti-body-width 80))
+
+(use-package markdown-toc)
 
 ;; Typescript
 (setq typescript-ts-mode-indent-offset 4)
