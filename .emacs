@@ -48,7 +48,6 @@
 (setq vc-follow-symlinks t)
 (setq use-dialog-box nil)
 (setq scroll-margin 10)
-(setq scroll-step 1)
 (setq scroll-conservatively 10000)
 (setq warning-minimum-level :emergency)
 (setq make-backup-files nil)
@@ -93,15 +92,14 @@
     (interactive)
     (shell-command "open -R .")))
 
-;; Set starting frame position and size
-(setq initial-frame-alist '((top . 100) (left . 80) (width . 100) (height . 40)))
+;; Set frame position and size
+(setq default-frame-alist '((top . 100) (left . 80) (width . 100) (height . 40)))
+(setq initial-frame-alist default-frame-alist)
 
 ;; Configure font size
 (set-face-attribute 'default nil
                     :family "Iosevka Nerd Font Mono"
-                    :height 150
-                    :weight 'normal
-                    :width 'normal)
+                    :height 150)
 
 ;; Keybindings
 (global-set-key (kbd "M-o") 'other-window)
@@ -110,9 +108,25 @@
 ;; Compilation with ANSI colors
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
-;; Uncomment these if you install and configure biomejs-format-mode
-;; (add-hook 'json-ts-mode-hook 'biomejs-format-mode)
-;; (add-hook 'typescript-ts-mode-hook 'biomejs-format-mode)
+;; Biome formatting on save
+(defun biome-format-buffer ()
+  "Format the current buffer with Biome."
+  (let ((current-point (point)))
+    (shell-command-on-region
+     (point-min) (point-max)
+     (format "npx @biomejs/biome format --stdin-file-path=%s"
+             (shell-quote-argument (or (buffer-file-name) "file.ts")))
+     nil t)
+    (goto-char current-point)))
+
+(defun biome-format-on-save ()
+  (add-hook 'before-save-hook #'biome-format-buffer nil t))
+
+(add-hook 'typescript-ts-mode-hook #'biome-format-on-save)
+(add-hook 'tsx-ts-mode-hook #'biome-format-on-save)
+(add-hook 'js-mode-hook #'biome-format-on-save)
+(add-hook 'js-jsx-mode-hook #'biome-format-on-save)
+(add-hook 'json-ts-mode-hook #'biome-format-on-save)
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
