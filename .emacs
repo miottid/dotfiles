@@ -23,17 +23,18 @@
         orderless
         marginalia
         embark
+        embark-consult
         cape
+        wgrep
         gruber-darker-theme
         magit
         multiple-cursors
         exec-path-from-shell
+        envrc
         treesit-auto
-        lsp-mode
         markdown-mode
         typescript-ts-mode
-        astro-ts-mode
-        docker-compose-mode))
+        astro-ts-mode))
 (unless package-archive-contents
   (package-refresh-contents))
 (dolist (package package-list)
@@ -107,13 +108,24 @@
 ;; Compilation with ANSI colors
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
+;; Resolve binaries from node_modules/.bin for speed
+(defun find-node-modules-binary (name)
+  "Find NAME in the nearest node_modules/.bin directory."
+  (let ((dir (locate-dominating-file default-directory "node_modules")))
+    (when dir
+      (let ((binary (expand-file-name (concat "node_modules/.bin/" name) dir)))
+        (when (file-executable-p binary)
+          binary)))))
+
 ;; Biome formatting on save
 (defun biome-format-buffer ()
   "Format the current buffer with Biome."
-  (let ((current-point (point)))
+  (let ((current-point (point))
+        (biome (or (find-node-modules-binary "biome") "npx @biomejs/biome")))
     (shell-command-on-region
      (point-min) (point-max)
-     (format "npx @biomejs/biome format --stdin-file-path=%s"
+     (format "%s format --stdin-file-path=%s"
+             biome
              (shell-quote-argument (or (buffer-file-name) "file.ts")))
      nil t)
     (goto-char current-point)))
@@ -127,30 +139,23 @@
 (add-hook 'js-jsx-mode-hook #'biome-format-on-save)
 (add-hook 'json-ts-mode-hook #'biome-format-on-save)
 
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  (setq lsp-enable-indentation nil)
-  (setq lsp-enable-on-type-formatting nil)
-  (setq lsp-enable-snippet nil)
-  (setq lsp-completion-provider :none)
-  ;; Performance optimizations
-  (setq lsp-idle-delay 0.5)
-  (setq lsp-log-io nil)
-  (setq read-process-output-max (* 1024 1024))
-  :config
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (lsp-enable-which-key-integration t)
+(setq read-process-output-max (* 1024 1024))
+
+(use-package eglot
+  :ensure nil
   :hook
-  (c-ts-mode . lsp-deferred)
-  (js-jsx-mode . lsp-deferred)
-  (js-mode . lsp-deferred)
-  (typescript-ts-mode . lsp-deferred)
-  (tsx-ts-mode . lsp-deferred)
-  (astro-ts-mode . lsp-deferred)
-  (rust-ts-mode . lsp-deferred)
-  (zig-mode . lsp-deferred))
+  (c-ts-mode . eglot-ensure)
+  (js-mode . eglot-ensure)
+  (js-jsx-mode . eglot-ensure)
+  (typescript-ts-mode . eglot-ensure)
+  (tsx-ts-mode . eglot-ensure)
+  (astro-ts-mode . eglot-ensure)
+  (rust-ts-mode . eglot-ensure)
+  (zig-mode . eglot-ensure)
+  :config
+  (setq eglot-autoshutdown t)
+  (add-to-list 'eglot-server-programs
+               '(astro-ts-mode . ("astro-ls" "--stdio"))))
 
 (defun set-c-indentation ()
   (setq-local c-ts-mode-indent-style 'linux
@@ -172,10 +177,11 @@
 (defun astro-format-buffer ()
   "Format the current Astro buffer with Prettier."
   (when (eq major-mode 'astro-ts-mode)
-    (let ((current-point (point)))
+    (let ((current-point (point))
+          (prettier (or (find-node-modules-binary "prettier") "npx prettier")))
       (shell-command-on-region
        (point-min) (point-max)
-       "npx prettier --parser=astro --stdin-filepath=file.astro"
+       (format "%s --parser=astro --stdin-filepath=file.astro" prettier)
        nil t)
       (goto-char current-point))))
 
@@ -213,6 +219,15 @@
   :bind
   ("C-." . embark-act)
   ("C-h B" . embark-bindings))
+
+(use-package embark-consult
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package wgrep
+  :custom
+  (wgrep-auto-save-buffer t))
 
 (use-package consult
   :bind
@@ -275,6 +290,23 @@
 (use-package savehist
   :init
   (savehist-mode))
+
+;; Monorepo support: scope project to nearest package.json
+(defun project-find-package-json (dir)
+  "Find project root by locating the nearest package.json from DIR."
+  (let ((root (locate-dominating-file dir "package.json")))
+    (when (and root (not (string-match-p "node_modules" root)))
+      (cons 'transient root))))
+
+(add-hook 'project-find-functions #'project-find-package-json)
+
+;; editorconfig
+(editorconfig-mode 1)
+
+;; direnv
+(use-package envrc
+  :init
+  (envrc-global-mode))
 
 ;; (load-theme 'gruber-darker t nil)
 (load-theme 'modus-operandi-deuteranopia t nil)
