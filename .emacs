@@ -14,7 +14,6 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
 
 (setq package-list
@@ -180,9 +179,10 @@
        nil t)
       (goto-char current-point))))
 
-(add-hook 'astro-ts-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook 'astro-format-buffer nil t)))
+(defun astro-format-on-save ()
+  (add-hook 'before-save-hook #'astro-format-buffer nil t))
+
+(add-hook 'astro-ts-mode-hook #'astro-format-on-save)
 
 (use-package orderless
   :custom
@@ -242,7 +242,7 @@
 (setq-default dired-dwim-target t)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(when (string= system-type "darwin") (setq dired-use-ls-dired nil))
+(when (eq system-type 'darwin) (setq dired-use-ls-dired nil))
 (setq dired-listing-switches "-alh")
 
 (global-set-key (kbd "C-,") 'duplicate-dwim)
