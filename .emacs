@@ -343,16 +343,26 @@
   :init
   (savehist-mode))
 
-;; Monorepo support: scope project to nearest package.json
+;; Monorepo support: scope project to nearest package.json using git
 (defun project-find-package-json (dir)
   "Find project root by locating the nearest package.json from DIR."
   (let ((root (locate-dominating-file dir "package.json")))
     (when (and root (not (string-match-p "node_modules" root)))
-      (cons 'transient root))))
+      (cons 'package-json root))))
+
+(cl-defmethod project-root ((project (head package-json)))
+  (cdr project))
+
+(cl-defmethod project-files ((project (head package-json)) &optional _dirs)
+  "List files using git ls-files scoped to the package directory."
+  (let* ((root (project-root project))
+         (default-directory root))
+    (mapcar (lambda (f) (expand-file-name f root))
+            (split-string
+             (shell-command-to-string "git ls-files -z --cached --others --exclude-standard")
+             "\0" t))))
 
 (add-hook 'project-find-functions #'project-find-package-json)
-
-(setq project-vc-ignores '("node_modules/" "dist/" "build/" ".next/" ".turbo/"))
 
 ;; editorconfig
 (editorconfig-mode 1)
