@@ -92,6 +92,7 @@
 
 ;; macOS specific
 (when (memq window-system '(mac ns))
+  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "FNM_MULTISHELL_PATH"))
   (exec-path-from-shell-initialize)
   ;; Replace Meta with CMD
   (setq mac-option-key-is-meta nil
@@ -176,6 +177,9 @@
     (cl-letf (((symbol-function 'eglot--register-filewatch) #'ignore))
       (apply fn args)))
   (advice-add 'eglot--managed-mode :around #'eglot-disable-file-watchers)
+  (add-to-list 'eglot-server-programs
+               '((typescript-ts-mode tsx-ts-mode js-mode js-jsx-mode)
+                 . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs
                '(astro-ts-mode . ("astro-ls" "--stdio"))))
 
