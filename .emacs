@@ -8,7 +8,7 @@
 ;; Native compilation settings
 (when (featurep 'native-compile)
   (setq native-comp-async-report-warnings-errors nil)
-  (setq native-comp-deferred-compilation t))
+  (setq native-comp-jit-compilation t))
 
 (setq custom-file "~/.emacs.custom.el")
 
@@ -21,33 +21,24 @@
 
 (setq package-list
       '(ace-jump-mode
-        smex
         swiper
         consult
         corfu
         orderless
         marginalia
         embark
-        savehist
         cape
         gruber-darker-theme
         magit
         multiple-cursors
         exec-path-from-shell
-        projectile
         flycheck
-        company
         treesit-auto
         lsp-mode
         markdown-mode
         typescript-ts-mode
         astro-ts-mode
         docker-compose-mode
-        naysayer-theme
-        rainbow-delimiters
-        rainbow-identifiers
-        autothemer
-        kuronami-theme
         use-package
         which-key))
 (unless package-archive-contents
@@ -61,7 +52,7 @@
 (setq inhibit-startup-message t)
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
-(setq vc-follow-symlinks nil)
+(setq vc-follow-symlinks t)
 (setq use-dialog-box nil)
 (setq scroll-margin 10)
 (setq scroll-step 1)
@@ -72,7 +63,6 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq c-basic-offset 4)
-(setq c-indent-offset 4)
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -104,16 +94,6 @@
         mac-command-key-is-meta t
         mac-command-modifier 'meta
         mac-option-modifier 'none)
-  ;; Copy/Paste seemeslessly with macOS
-  (defun copy-from-osx ()
-    (shell-command-to-string "pbpaste"))
-  (defun paste-to-osx (text &optional push)
-    (let ((process-connection-type nil))
-      (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-        (process-send-string proc text)
-        (process-send-eof proc))))
-  (setq interprogram-cut-function 'paste-to-osx)
-  (setq interprogram-paste-function 'copy-from-osx)
   (setq ns-antialias-text nil)
   ;; Fix pixel gap between emacs and other frames
   (setq frame-resize-pixelwise t)
@@ -150,7 +130,6 @@
   (setq lsp-enable-indentation nil)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-enable-snippet nil)
-  (setq company-lsp-enable-snippet nil)
   ;; Performance optimizations
   (setq lsp-idle-delay 0.5)
   (setq lsp-log-io nil)
@@ -212,6 +191,38 @@
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
+(use-package corfu
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.2)
+  (corfu-auto-prefix 2)
+  (corfu-cycle t)
+  (corfu-preselect 'prompt)
+  :init
+  (global-corfu-mode))
+
+(use-package cape
+  :init
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file))
+
+(use-package marginalia
+  :init
+  (marginalia-mode))
+
+(use-package embark
+  :bind
+  ("C-." . embark-act)
+  ("C-h B" . embark-bindings))
+
+(use-package consult
+  :bind
+  ("C-x b" . consult-buffer)
+  ("M-g g" . consult-goto-line)
+  ("M-g M-g" . consult-goto-line)
+  ("M-s l" . consult-line)
+  ("M-s r" . consult-ripgrep))
+
 ;; Fido mode - built-in completion
 (fido-mode 1)
 (fido-vertical-mode 1)
@@ -235,21 +246,10 @@
 (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
 (setq-default dired-dwim-target t)
 (setq dired-kill-when-opening-new-dired-buffer t)
-(setq dired-hide-details-mode 1)
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (when (string= system-type "darwin") (setq dired-use-ls-dired nil))
 (setq dired-listing-switches "-alh")
 
-;; Projectile
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode 1)
-  (setq projectile-enable-caching t)
-  (setq projectile-indexing-method 'alien)
-  :bind (:map projectile-mode-map
-              ("C-x p" . projectile-command-map)
-              ("C-x p d" . projectile-dired)
-              ("C-x p !" . projectile-run-async-shell-command-in-root)))
 
 ;; GitHub Copilot
 (use-package copilot
@@ -260,17 +260,7 @@
   (global-set-key (kbd "C-c C-c") 'copilot-mode)
   (global-set-key (kbd "C-c C-a") 'copilot-accept-completion))
 
-(defun duplicate-line ()
-  (interactive)
-  (let ((column (- (point) (point-at-bol)))
-        (line (let ((s (thing-at-point 'line t)))
-                (if s (string-remove-suffix "\n" s) ""))))
-    (move-end-of-line 1)
-    (newline)
-    (insert line)
-    (move-beginning-of-line 1)
-    (forward-char column)))
-(global-set-key (kbd "C-,") 'duplicate-line)
+(global-set-key (kbd "C-,") 'duplicate-dwim)
 
 ;; treesit
 (use-package treesit-auto
