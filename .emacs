@@ -92,8 +92,14 @@
 
 ;; macOS specific
 (when (memq window-system '(mac ns))
-  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "FNM_MULTISHELL_PATH"))
   (exec-path-from-shell-initialize)
+  ;; Ensure fnm-managed global node bins are in exec-path
+  (let ((node-path (string-trim (shell-command-to-string "node -p 'process.execPath'"))))
+    (when (and (not (string-empty-p node-path)) (file-exists-p node-path))
+      (let ((bin-dir (file-name-directory node-path)))
+        (add-to-list 'exec-path bin-dir)
+        (setenv "PATH" (concat bin-dir ":" (getenv "PATH"))))))
+
   ;; Replace Meta with CMD
   (setq mac-option-key-is-meta nil
         mac-command-key-is-meta t
