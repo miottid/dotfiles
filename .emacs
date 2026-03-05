@@ -37,10 +37,12 @@
         olivetti
         typescript-ts-mode
         astro-ts-mode))
-(unless package-archive-contents
-  (package-refresh-contents))
+(defvar package-list-refreshed nil)
 (dolist (package package-list)
   (unless (package-installed-p package)
+    (unless package-list-refreshed
+      (package-refresh-contents)
+      (setq package-list-refreshed t))
     (package-install package)))
 
 (add-to-list 'load-path "~/.emacs.local/")
