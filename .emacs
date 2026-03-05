@@ -13,15 +13,12 @@
 (setq custom-file "~/.emacs.custom.el")
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
 
 (setq package-list
       '(avy
-        swiper
         consult
         corfu
         orderless
@@ -125,6 +122,7 @@
   (setq lsp-enable-indentation nil)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-enable-snippet nil)
+  (setq lsp-completion-provider :none)
   ;; Performance optimizations
   (setq lsp-idle-delay 0.5)
   (setq lsp-log-io nil)
@@ -150,8 +148,6 @@
 
 ;; Typescript
 (setq typescript-ts-mode-indent-offset 4)
-(setq typescript-indent-level 4)
-(setq typescript-auto-indent-flag t)
 
 ;; Astro
 (use-package astro-ts-mode
@@ -210,14 +206,12 @@
 
 (use-package consult
   :bind
+  ("C-s" . consult-line)
   ("C-x b" . consult-buffer)
   ("M-g g" . consult-goto-line)
   ("M-g M-g" . consult-goto-line)
   ("M-s l" . consult-line)
   ("M-s r" . consult-ripgrep))
-
-;; Swiper - Powerful search
-(use-package swiper :config (global-set-key "\C-s" 'swiper))
 
 (use-package multiple-cursors
   :config
@@ -241,16 +235,6 @@
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (when (string= system-type "darwin") (setq dired-use-ls-dired nil))
 (setq dired-listing-switches "-alh")
-
-
-;; GitHub Copilot
-(use-package copilot
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main")
-  :config
-  (global-set-key (kbd "C-c C-c") 'copilot-mode)
-  (global-set-key (kbd "C-c C-a") 'copilot-accept-completion))
 
 (global-set-key (kbd "C-,") 'duplicate-dwim)
 
