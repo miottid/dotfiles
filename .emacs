@@ -180,8 +180,15 @@
   (add-to-list 'eglot-server-programs
                '((typescript-ts-mode tsx-ts-mode js-mode js-jsx-mode)
                  . ("typescript-language-server" "--stdio")))
+  (defun eglot-astro-server (_interactive)
+    "Return astro-ls command with tsdk resolved from node_modules."
+    (let* ((tsdk-dir (locate-dominating-file default-directory "node_modules/typescript/lib"))
+           (tsdk (when tsdk-dir
+                   (expand-file-name "node_modules/typescript/lib" tsdk-dir))))
+      `("astro-ls" "--stdio"
+        :initializationOptions (:typescript (:tsdk ,(or tsdk ""))))))
   (add-to-list 'eglot-server-programs
-               '(astro-ts-mode . ("astro-ls" "--stdio"))))
+               '(astro-ts-mode . eglot-astro-server)))
 
 (defun set-c-indentation ()
   (setq-local c-ts-mode-indent-style 'linux
