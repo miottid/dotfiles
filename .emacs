@@ -93,12 +93,15 @@
 ;; macOS specific
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
-  ;; Ensure fnm-managed global node bins are in exec-path
-  (let ((node-path (string-trim (shell-command-to-string "node -p 'process.execPath'"))))
-    (when (and (not (string-empty-p node-path)) (file-exists-p node-path))
-      (let ((bin-dir (file-name-directory node-path)))
-        (add-to-list 'exec-path bin-dir)
-        (setenv "PATH" (concat bin-dir ":" (getenv "PATH"))))))
+  ;; Ensure fnm-managed node bins are in exec-path
+  (let ((versions-dir (expand-file-name
+                        "Library/Application Support/fnm/node-versions" "~")))
+    (when (file-directory-p versions-dir)
+      (dolist (version-dir (directory-files versions-dir t "^v"))
+        (let ((bin-dir (expand-file-name "installation/bin" version-dir)))
+          (when (file-exists-p (expand-file-name "typescript-language-server" bin-dir))
+            (add-to-list 'exec-path bin-dir)
+            (setenv "PATH" (concat bin-dir ":" (getenv "PATH"))))))))
 
   ;; Replace Meta with CMD
   (setq mac-option-key-is-meta nil
