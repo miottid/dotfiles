@@ -63,9 +63,9 @@
 (setq-default tab-width 4)
 (setq c-basic-offset 4)
 
-(tool-bar-mode 0)
+(when (fboundp 'tool-bar-mode) (tool-bar-mode 0))
 (menu-bar-mode 0)
-(scroll-bar-mode 0)
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode 0))
 (column-number-mode t)
 (global-display-line-numbers-mode 1)
 (show-paren-mode 1)
@@ -393,7 +393,7 @@
   (envrc-global-mode))
 
 ;; (load-theme 'gruber-darker t nil)
-(load-theme 'modus-operandi-deuteranopia t nil)
+;; (load-theme 'modus-operandi-deuteranopia t nil)
 ;; Reset GC threshold after startup
 (add-hook 'emacs-startup-hook
           (lambda ()
