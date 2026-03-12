@@ -60,6 +60,25 @@ config.window_close_confirmation = "NeverPrompt"
 --     },
 -- }
 
+-- Make CMD send Meta/Alt (so Emacs in terminal uses CMD as Meta like GUI Emacs)
+config.send_composed_key_when_left_alt_is_pressed = false
+config.send_composed_key_when_right_alt_is_pressed = false
+
+config.keys = {
+	{ key = "o", mods = "CMD", action = act.SendKey({ key = "o", mods = "ALT" }) },
+	{ key = "x", mods = "CMD", action = act.SendKey({ key = "x", mods = "ALT" }) },
+	{ key = "g", mods = "CMD", action = act.SendKey({ key = "g", mods = "ALT" }) },
+	{ key = "w", mods = "CMD", action = act.SendKey({ key = "w", mods = "ALT" }) },
+	{ key = "s", mods = "CMD", action = act.SendKey({ key = "s", mods = "ALT" }) },
+	{ key = "d", mods = "CMD", action = act.SendKey({ key = "d", mods = "ALT" }) },
+	{ key = "f", mods = "CMD", action = act.SendKey({ key = "f", mods = "ALT" }) },
+	{ key = "b", mods = "CMD", action = act.SendKey({ key = "b", mods = "ALT" }) },
+	{ key = "<", mods = "CMD", action = act.SendKey({ key = "<", mods = "ALT" }) },
+	{ key = ">", mods = "CMD", action = act.SendKey({ key = ">", mods = "ALT" }) },
+	{ key = "%", mods = "CMD", action = act.SendKey({ key = "%", mods = "ALT" }) },
+	{ key = "0", mods = "CMD", action = act.SendKey({ key = "0", mods = "ALT" }) },
+}
+
 config.color_scheme = "Dark Pastel"
 
 config.colors = {
