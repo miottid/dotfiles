@@ -38,6 +38,7 @@
         markdown-mode
         markdown-toc
         olivetti
+        treemacs
         typescript-ts-mode
         astro-ts-mode))
 (defvar package-list-refreshed nil)
@@ -320,6 +321,14 @@
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (when (eq system-type 'darwin) (setq dired-use-ls-dired nil))
 (setq dired-listing-switches "-alh")
+
+(use-package treemacs
+  :bind
+  ("M-0" . treemacs-select-window)
+  ("C-x t t" . treemacs)
+  :config
+  (setq treemacs-width 35)
+  (setq treemacs-is-never-other-window t))
 
 (global-set-key (kbd "C-,") 'duplicate-dwim)
 
