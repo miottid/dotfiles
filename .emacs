@@ -39,6 +39,7 @@
         markdown-toc
         olivetti
         treemacs
+        vterm
         typescript-ts-mode
         astro-ts-mode))
 (defvar package-list-refreshed nil)
@@ -321,6 +322,13 @@
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (when (eq system-type 'darwin) (setq dired-use-ls-dired nil))
 (setq dired-listing-switches "-alh")
+
+(use-package vterm
+  :bind
+  ("C-x t v" . vterm)
+  :config
+  (setq vterm-max-scrollback 10000)
+  (setq vterm-buffer-name-string "vterm: %s"))
 
 (use-package treemacs
   :bind
