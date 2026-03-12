@@ -28,6 +28,7 @@ alias htop="btop"
 alias code="cursor"
 alias simulator="open -a Simulator.app"
 alias claude="claude --dangerously-skip-permissions --model claude-opus-4-6"
+alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
 
 # - git
 alias hub="hub"
