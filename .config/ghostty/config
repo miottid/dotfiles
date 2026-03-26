@@ -1,12 +1,12 @@
 window-width = 160
 window-height = 34
 
-background-opacity = 0.85
-# background-blur-radius = 20
+background-opacity = 0.95
+background-blur-radius = 20
 
 font-family = Iosevka Nerd Font Mono
-font-family = Berkeley Mono Condensed
-font-size = 19
+# font-family = Berkeley Mono Condensed
+font-size = 14
 
 macos-option-as-alt = true
 
